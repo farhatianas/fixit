@@ -1,0 +1,107 @@
+<?php
+
+namespace OfferBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+/**
+ * Offer
+ *
+ * @ORM\Table(name="offer", indexes={@ORM\Index(name="offer_ibfk_1", columns={"owner_id"})})
+ * @ORM\Entity
+ */
+class Offer
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idOffer", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idoffer;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nameOffer", type="string", length=300, nullable=false)
+     */
+    private $nameoffer;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="placeOffer", type="string", length=300, nullable=false)
+     */
+    private $placeoffer;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="priceOffer", type="integer", nullable=false)
+     */
+    private $priceoffer;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descriptionOffer", type="string", length=5000, nullable=false)
+     */
+    private $descriptionoffer;
+
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName", size="imageSize")
+     *
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var string
+     */
+    private $imageName;
+
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateOffer", type="date", nullable=false)
+     */
+    private $dateoffer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Categorie")
+     * @ORM\JoinColumn(name="categorie_id",referencedColumnName="id")
+     */
+    private $categoryoffer;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rateOffer", type="integer", nullable=false)
+     */
+    private $rateoffer;
+
+    /**
+     * @var \AppBundle\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     * })
+     */
+    private $owner;
+
+    public function __construct()
+    {
+        $this->dateoffer = new \DateTime();
+        $this->rateoffer = -1;
+    }
+
+}

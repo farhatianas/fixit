@@ -1,0 +1,530 @@
+<?php
+// src/AppBundle/Entity/User.php
+
+namespace AppBundle\Entity;
+use Symfony\Component\Validator\Constraints\DateTime;
+use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="fos_user")
+ */
+class User extends BaseUser
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $lastName;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $phoneNumber;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $birthDate;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $registrationDate;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $city;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $zipCode;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $avatar ="dafault_avatar.png";
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $profileCover ="default_cover.png";
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $newsLetterSubscribtion;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $volunteer;
+
+    /**
+     * @ORM\Column(type="boolean",options={"default" : 0})
+     */
+    private $banned;
+
+    /**
+     * @ORM\Column(type="array",nullable=true)
+     */
+    private $contactList;
+
+    /**
+     * @ORM\Column(type="integer",options={"default" : 0})
+     */
+    private $rating;
+
+    /**
+     * @ORM\Column(type="boolean",options={"default" : 0})
+     */
+    private $controller;
+
+    /**
+     * @var string
+     */
+    private $accountType;
+
+    /**
+     * Set accountType
+     *
+     * @param string $accountType
+     *
+     * @return User
+     */
+    public function setAccountType($accountType)
+    {
+        $this->accountType = $accountType;
+
+        return $this;
+    }
+
+    /**
+     * Get accountType
+     *
+     * @return string
+     */
+    public function getAccountType()
+    {
+        return $this->accountType;
+    }
+
+
+
+
+    public function __construct()
+    {
+        parent::__construct();
+        // your own logic
+        $this->registrationDate = new \DateTime();
+        $this->banned = 0;
+        $this->rating = 0;
+        $this->controller = 0;
+    }
+
+
+
+
+    /**
+     * Set firstName
+     *
+     * @param string $firstName
+     *
+     * @return User
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get firstName
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set lastName
+     *
+     * @param string $lastName
+     *
+     * @return User
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get lastName
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * Set phoneNumber
+     *
+     * @param integer $phoneNumber
+     *
+     * @return User
+     */
+    public function setPhoneNumber($phoneNumber)
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get phoneNumber
+     *
+     * @return integer
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * Set birthDate
+     *
+     * @param \DateTime $birthDate
+     *
+     * @return User
+     */
+    public function setBirthDate($birthDate)
+    {
+        $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    /**
+     * Get birthDate
+     *
+     * @return \DateTime
+     */
+    public function getBirthDate()
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * Set registrationDate
+     *
+     * @param \DateTime $registrationDate
+     *
+     * @return User
+     */
+    public function setRegistrationDate($registrationDate)
+    {
+        $this->registrationDate = $registrationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get registrationDate
+     *
+     * @return \DateTime
+     */
+    public function getRegistrationDate()
+    {
+        return $this->registrationDate;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     *
+     * @return User
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     *
+     * @return User
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set zipCode
+     *
+     * @param integer $zipCode
+     *
+     * @return User
+     */
+    public function setZipCode($zipCode)
+    {
+        $this->zipCode = $zipCode;
+
+        return $this;
+    }
+
+    /**
+     * Get zipCode
+     *
+     * @return integer
+     */
+    public function getZipCode()
+    {
+        return $this->zipCode;
+    }
+
+    /**
+     * Set avatar
+     *
+     * @param string $avatar
+     *
+     * @return User
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Get avatar
+     *
+     * @return string
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * Set profileCover
+     *
+     * @param string $profileCover
+     *
+     * @return User
+     */
+    public function setProfileCover($profileCover)
+    {
+        $this->profileCover = $profileCover;
+
+        return $this;
+    }
+
+    /**
+     * Get profileCover
+     *
+     * @return string
+     */
+    public function getProfileCover()
+    {
+        return $this->profileCover;
+    }
+
+    /**
+     * Set newsLetterSubscribtion
+     *
+     * @param boolean $newsLetterSubscribtion
+     *
+     * @return User
+     */
+    public function setNewsLetterSubscribtion($newsLetterSubscribtion)
+    {
+        $this->newsLetterSubscribtion = $newsLetterSubscribtion;
+
+        return $this;
+    }
+
+    /**
+     * Get newsLetterSubscribtion
+     *
+     * @return boolean
+     */
+    public function getNewsLetterSubscribtion()
+    {
+        return $this->newsLetterSubscribtion;
+    }
+
+    /**
+     * Set volunteer
+     *
+     * @param boolean $volunteer
+     *
+     * @return User
+     */
+    public function setVolunteer($volunteer)
+    {
+        $this->volunteer = $volunteer;
+
+        return $this;
+    }
+
+    /**
+     * Get volunteer
+     *
+     * @return boolean
+     */
+    public function getVolunteer()
+    {
+        return $this->volunteer;
+    }
+
+    /**
+     * Set banned
+     *
+     * @param boolean $banned
+     *
+     * @return User
+     */
+    public function setBanned($banned)
+    {
+        $this->banned = $banned;
+
+        return $this;
+    }
+
+    /**
+     * Get banned
+     *
+     * @return boolean
+     */
+    public function getBanned()
+    {
+        return $this->banned;
+    }
+
+    /**
+     * Set contactList
+     *
+     * @param array $contactList
+     *
+     * @return User
+     */
+    public function setContactList($contactList)
+    {
+        $this->contactList = $contactList;
+
+        return $this;
+    }
+
+    /**
+     * Get contactList
+     *
+     * @return array
+     */
+    public function getContactList()
+    {
+        return $this->contactList;
+    }
+
+    /**
+     * Set rating
+     *
+     * @param integer $rating
+     *
+     * @return User
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Get rating
+     *
+     * @return integer
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * Set controller
+     *
+     * @param boolean $controller
+     *
+     * @return User
+     */
+    public function setController($controller)
+    {
+        $this->controller = $controller;
+
+        return $this;
+    }
+
+    /**
+     * Get controller
+     *
+     * @return boolean
+     */
+    public function getController()
+    {
+        return $this->controller;
+    }
+}

@@ -1,0 +1,18 @@
+
+{% extends "back.html.twig" %}
+
+{% block content %}
+    <center>
+        <h1>Ajouter une categorie</h1>
+        <fieldset style="width: 50%">
+            {{ form_start(form) }}
+            nom :* {{ form_widget(form.nom) }}</br>
+            Save {{ form_widget(form.submit) }}</br>
+            {{ form_end(form) }}
+        </fieldset>
+    </center>
+{% endblock %}
+
+
+
+

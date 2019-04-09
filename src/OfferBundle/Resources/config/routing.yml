@@ -1,0 +1,23 @@
+showOffers:
+    path:     /shop/services
+    defaults: { _controller: OfferBundle:Offer:show }
+
+showSingle:
+     path:     /shop/services/single/{id}
+     defaults: { _controller: OfferBundle:Offer:showSingle }
+
+createService:
+     path:     /shop/services/add
+     defaults: { _controller: OfferBundle:Offer:createService }
+
+showCategories:
+    path:     /back/Services/Categories
+    defaults: { _controller: OfferBundle:Categorie:show }
+
+deleteCategory:
+     path:     /back/Services/Categories/delete/{id}
+     defaults: { _controller: OfferBundle:Categorie:delete }
+
+createCategory:
+    path:     /back/Services/Categories/add
+    defaults: { _controller: OfferBundle:Categorie:create }

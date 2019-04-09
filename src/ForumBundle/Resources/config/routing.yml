@@ -1,0 +1,99 @@
+#Main Forums routes
+forums_homepage:
+    path:     /forums
+    defaults: { _controller: ForumBundle:Forums:index }
+
+createForum:
+    path:     /forums/create_forum
+    defaults: {_controller: ForumBundle:Forums:createForum }
+
+deleteForum:
+    path:     /forums/delete_forum/{id}
+    defaults: { _controller: ForumBundle:Forums:deleteForum }
+
+updateForum:
+    path:     /forums/update_forum/{id}
+    defaults: { _controller: ForumBundle:Forums:updateForum }
+
+#Sub Forums routes
+sub_forums:
+    path:     /forums/forum/{id}
+    defaults: { _controller: ForumBundle:Forums:showSubForums }
+
+create_sub_forum:
+    path:     /forums/forum/create_sub/{parent_id}
+    defaults: { _controller: ForumBundle:Forums:createSubForum }
+
+deleteSubForum:
+    path:     /forums/forum/delete_sub_forum/{id}/{parent_id}
+    defaults: { _controller: ForumBundle:Forums:deleteSubForum }
+
+updateSubForum:
+    path:     /forums/forum/update_sub_forum/{id}/{parent_id}
+    defaults: { _controller: ForumBundle:Forums:updateSubForum }
+
+#Back office routes for roles management
+showRoles:
+    path:     /back/forums/roles
+    defaults: { _controller: ForumBundle:Role:show }
+
+promoteSpectator:
+    path:     /back/forums/roles/promote_spectator/{id}
+    defaults: { _controller: ForumBundle:Role:addRoleSpectator }
+
+demoteSpectator:
+    path:     /back/forums/roles/demote_spectator/{id}
+    defaults: { _controller: ForumBundle:Role:removeRoleSpectator }
+
+promoteParticipant:
+    path:     /back/forums/roles/promote_participant/{id}
+    defaults: { _controller: ForumBundle:Role:addRoleParticipant }
+
+demoteParticipant:
+    path:     /back/forums/roles/demote_participant/{id}
+    defaults: { _controller: ForumBundle:Role:removeRoleParticipant }
+
+promoteModerator:
+    path:     /back/forums/roles/promote_moderator/{id}
+    defaults: { _controller: ForumBundle:Role:addRoleModerator }
+
+demoteModerator:
+    path:     /back/forums/roles/demote_moderator/{id}
+    defaults: { _controller: ForumBundle:Role:removeRoleModerator }
+
+promoteKeyMaster:
+    path:     /back/forums/roles/promote_keyMaster/{id}
+    defaults: { _controller: ForumBundle:Role:addRoleKeyMaster }
+
+demoteKeyMaster:
+    path:     /back/forums/roles/demote_keyMaster/{id}
+    defaults: { _controller: ForumBundle:Role:removeRoleKeyMaster }
+
+#Topic routes
+createTopic:
+    path:     /forums/forum/create_topic/{forum_id}
+    defaults: {_controller: ForumBundle:Topic:createTopic }
+
+showPosts:
+    path:     /forums/forum/topic/topic_content
+    defaults: {_controller: ForumBundle:Post:showPosts }
+
+deleteTopic:
+    path:     /forums/forum/delete_topic/{id}/{parent_id}
+    defaults: { _controller: ForumBundle:Topic:deleteTopic }
+
+pinTopic:
+    path:     /forums/forum/pin_topic/{id}/{parent_id}
+    defaults: { _controller: ForumBundle:Topic:pinTopic }
+
+unpinTopic:
+    path:     /forums/forum/unpin_topic/{id}/{parent_id}
+    defaults: { _controller: ForumBundle:Topic:unpinTopic }
+
+closeTopic:
+    path:     /forums/forum/close_topic/{id}/{parent_id}
+    defaults: { _controller: ForumBundle:Topic:closeTopic }
+
+openTopic:
+    path:     /forums/forum/open_topic/{id}/{parent_id}
+    defaults: { _controller: ForumBundle:Topic:openTopic }

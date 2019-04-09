@@ -1,0 +1,3 @@
+delete:
+     path:     /back/contact/delete/{id}
+     defaults: { _controller: ContactBundle:Contact:delete }

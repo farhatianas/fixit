@@ -1,0 +1,60 @@
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+<!-- First check if forum is staff only -->
+{% if parent_forum.staffOnly == true %}
+    <!-- Only Keymasters and forum moderators check -->
+    {% if is_granted("ROLE_KEYMASTER") or (app.user in parent_forum.moderators) %}
+        <div  style="padding-bottom: 20px;">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#topicModal"{{ parent_forum.id }}>create a new Topic</button>
+        </div>
+    {% else %}
+        <div class="alert mt--30">
+            <div class="alert--inner ff--primary text-white bg-primary">
+                <p>This Forum is reserved for Staff , Only Keymasters and forum moderators are permitted to post topics here</p>
+            </div>
+        </div>
+    {% endif %}
+    <!-- if forum is not staff only , first check for role_participant-->
+{% else %}
+    {% if is_granted("ROLE_PARTICIPANT") %}
+        <div  style="padding-bottom: 20px;">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#topicModal"{{ parent_forum.id }}>create a new Topic</button>
+        </div>
+    {% else %}
+        <div class="alert mt--30">
+            <div class="alert--inner ff--primary text-white bg-primary">
+                <p>You do not have permission to create a topic</p>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+<!-- if user is not logged in -->
+{% else %}
+    <div class="alert mt--30">
+        <div class="alert--inner ff--primary text-white bg-primary">
+            <p>You must be logged in to create new topics.</p>
+        </div>
+    </div>
+{% endif %}
+
+<div class="modal fade" role="dialog" id="topicModal"{{ parent_forum.id }}>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Please enter Topic details</h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form, {'action': path('createTopic', { 'forum_id': parent_forum.id })}) }}
+                <label>Topic name</label>
+                {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+                <br/>
+                <label>Topic content</label>
+                {{ form_widget(form.postContent, { 'attr': {'class': 'form-control'} }) }}
+                <br/>
+                {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>

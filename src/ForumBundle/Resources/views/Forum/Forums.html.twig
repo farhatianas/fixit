@@ -1,0 +1,103 @@
+{% extends 'forum_base.html.twig' %}
+
+{% block topArea %}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        {{ render(controller('ForumBundle:Forums:createForum')) }}
+    {% endif %}
+{% endblock %}
+
+
+{% block main_content %}
+<div class="main--content-inner drop--shadow">
+    <Topicpics List Start -->
+    <div class="topics--list">
+        <table class="table">
+            <thead class="ff--primary fs--14 text-darkest">
+            <tr>
+                <th>Forum</th>
+                <th>Topics</th>
+                <th>Post</th>
+                <th>Frieshness</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for forum in forums %}
+            <tr>
+                <td>
+                    <h4 class="h6 fw--500 text-darkest"><a href="{{ path('sub_forums', {id: forum.id}) }}" class="btn-link">{{ forum.name }}</a>
+                    </h4>
+                    <p>{{ forum.description }}</p>
+
+                    <ul class="subforums nav mt--10 text-darkest">
+                        {% if forum.tags is not empty %}
+                        <li><i class="fa fa-circle-thin mr--10 text-primary"></i></li>
+                        {% for tag in forum.tags %}
+                        <li><a href="topics.html">{{ tag.name }}</a></li>
+                        {% endfor %}
+                        {% endif %}
+                    </ul>
+                    {% if is_granted("ROLE_KEYMASTER") or (app.user in forum.moderators) %}
+                        {{ render(controller('ForumBundle:Forums:updateForum', {'id': forum.id})) }}
+                        <button class="btn-danger"><a href="{{ path('deleteForum',{'id':forum.id}) }}" class="btn-link">  Delete</a></button>
+                    {% endif %}
+                    {% if is_granted("ROLE_KEYMASTER") %}
+                        <button class="btn-info"><a href="sub-forums.html" class="btn-link">  Manage moderators</a></button>
+                    {% endif %}
+                </td>
+                <td>
+                    <p class="ff--primary fw--500 fs--14 text-darkest">07</p>
+                </td>
+                <td>
+                    <p class="ff--primary fw--500 fs--14 text-darkest">12</p>
+                </td>
+                <td>
+                    <p>
+                        {% set dateAddedForum = date(forum.AddedDate|date('c')) %}
+                        {% set dateTimeNow = date() %}
+
+                        {% set dateInterval = dateTimeNow.diff(dateAddedForum) %}
+
+                        {% set days = dateInterval|date('%a') %}
+                        {% set hours = dateInterval|date('%h') %}
+
+                        {% set elapsed = dateInterval|date('%R') == '-' ? true %}
+
+                        {% if elapsed %}
+                            {% if days == 0 and hours == 0 %}
+                                Less than an hour ago
+                            {% else %}
+
+                                {% if days == 1 and hours != 1 %}
+                                    {{ days }} day, {{ hours }} hours ago
+                                {% elseif days == 1 and hours == 1 %}
+                                    {{ days }} day, {{ hours }} hour ago
+                                {% elseif days != 1 and hours ==1 %}
+                                    {{ days }} days, {{ hours }} hour ago
+                                {% else %}
+                                    {{ days }} days, {{ hours }} hours ago
+                                {% endif %}
+
+                            {% endif %}
+                        {% endif %}
+                    </p>
+
+                    <a href="member-activity-personal.html" class="topic--author">
+                        <span class="name">{{ forum.userId.username }}</span>
+                        <span class="avatar"><img src="{{ asset('uploads/avatars/' ~ forum.userId.avatar) }}" alt=""></span>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <Topicpics List End -->
+
+{% endblock %}
+{% block pagination %}
+    {# display navigation #}
+    <div class="navigation text-center">
+        {{ knp_pagination_render(forums) }}
+    </div>
+{% endblock %}

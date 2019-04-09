@@ -1,0 +1,352 @@
+<?php
+
+namespace ForumBundle\Entity;
+
+use AppBundle\AppBundle;
+use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\User;
+use Symfony\Component\Validator\Constraints\DateTime;
+use TagBundle\Concern\Taggable;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Forum
+ *
+ * @ORM\Table(name="forums", indexes={@ORM\Index(name="forums_ibfk_1", columns={"user_id"})})
+ * @ORM\Entity
+ */
+class Forum
+{
+    use Taggable;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=5000, nullable=false)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string")
+     *
+     * @Assert\NotBlank(message="Please, upload the forum wallpaper as a PNG file.")
+     * @Assert\File(mimeTypes={ "image/png" })
+     */
+    private $wallpaper;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="added_date", type="datetime", nullable=false)
+     */
+    private $addedDate;
+
+
+    /**
+     * @var array
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User")
+     */
+    private $moderators;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Forum", inversedBy="subForums")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id" ,onDelete="SET NULL")
+     */
+    private $parent;
+
+    /**
+     * @var Forum[]
+     * @ORM\OneToMany(targetEntity="Forum", mappedBy="parent", cascade={"all"}, orphanRemoval=true)
+     */
+    private $subForums;
+
+    /**
+     * @var \AppBundle\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * })
+     */
+    private $userId;
+
+    /**
+    * @var boolean
+    * @ORM\Column(name="staffOnly", type="boolean", nullable=true, options={"default":false})
+    */
+    private $staffOnly;
+
+    public function __construct()
+    {
+        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->moderators = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->addedDate = new \DateTime();
+        $this->ismain = true;
+    }
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Forum
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Forum
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set wallpaper
+     *
+     * @param string $wallpaper
+     *
+     * @return Forum
+     */
+    public function setWallpaper($wallpaper)
+    {
+        $this->wallpaper = $wallpaper;
+
+        return $this;
+    }
+
+    /**
+     * Get wallpaper
+     *
+     * @return string
+     */
+    public function getWallpaper()
+    {
+        return $this->wallpaper;
+    }
+
+    /**
+     * Set addedDate
+     *
+     * @param \DateTime $addedDate
+     *
+     * @return Forum
+     */
+    public function setAddedDate($addedDate)
+    {
+        $this->addedDate = $addedDate;
+
+        return $this;
+    }
+
+    /**
+     * Get addedDate
+     *
+     * @return \DateTime
+     */
+    public function getAddedDate()
+    {
+        return $this->addedDate;
+    }
+
+    /**
+     * Set userId
+     *
+     * @param \AppBundle\Entity\User $userId
+     *
+     * @return Forum
+     */
+    public function setUserId(\AppBundle\Entity\User $userId = null)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+
+    /**
+     * Add moderator
+     *
+     * @param \AppBundle\Entity\User $moderator
+     *
+     * @return Forum
+     */
+    public function addModerator(\AppBundle\Entity\User $moderator)
+    {
+        $this->moderators[] = $moderator;
+
+        return $this;
+    }
+
+    /**
+     * Remove moderator
+     *
+     * @param \AppBundle\Entity\User $moderator
+     */
+    public function removeModerator(\AppBundle\Entity\User $moderator)
+    {
+        $this->moderators->removeElement($moderator);
+    }
+
+    /**
+     * Get moderators
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getModerators()
+    {
+        return $this->moderators;
+    }
+
+
+    /**
+     * Set parent
+     *
+     * @param \ForumBundle\Entity\Forum $parent
+     *
+     * @return Forum
+     */
+    public function setParent(\ForumBundle\Entity\Forum $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return \ForumBundle\Entity\Forum
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Add subForum
+     *
+     * @param \ForumBundle\Entity\Forum $subForum
+     *
+     * @return Forum
+     */
+    public function addSubForum(\ForumBundle\Entity\Forum $subForum)
+    {
+        $this->subForums[] = $subForum;
+
+        return $this;
+    }
+
+    /**
+     * Remove subForum
+     *
+     * @param \ForumBundle\Entity\Forum $subForum
+     */
+    public function removeSubForum(\ForumBundle\Entity\Forum $subForum)
+    {
+        $this->subForums->removeElement($subForum);
+    }
+
+    /**
+     * Get subForums
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSubForums()
+    {
+        return $this->subForums;
+    }
+
+    /**
+     * Set staffOnly
+     *
+     * @param boolean $staffOnly
+     *
+     * @return Forum
+     */
+    public function setStaffOnly($staffOnly)
+    {
+        $this->staffOnly = $staffOnly;
+
+        return $this;
+    }
+
+    /**
+     * Get staffOnly
+     *
+     * @return boolean
+     */
+    public function getStaffOnly()
+    {
+        return $this->staffOnly;
+    }
+}

@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+{% set title = 'Contact' %}
+
+{% block content %}
+    <!-- ##### Contact Area Info Start ##### -->
+    <div class="contact-area-info section-padding-0-100">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <!-- Contact Thumbnail -->
+                <div class="col-12 col-md-6">
+                    <div class="contact--thumbnail">
+                        <img src="{{asset('img/bg-img/25.jpg')}}" alt="">
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-5">
+                    <!-- Section Heading -->
+                    <div class="section-heading">
+                        <h2>CONTACT US</h2>
+                        <p>We are improving our services to serve you better.</p>
+                    </div>
+                    <!-- Contact Information -->
+                    <div class="contact-information">
+                        <p><span>Address:</span> Z.I. Chotrana II B.P. 160 Pôle Technologique El Ghazela - Ariana 2083</p>
+                        <p><span>Phone:</span> (+216) 51 258 963</p>
+                        <p><span>Email:</span> fixitpidev@gmail.com</p>
+                        <p><span>Average respond time:</span> 4 - 6 Hours</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Contact Area Info End ##### -->
+
+    <!-- ##### Contact Area Start ##### -->
+    <section class="contact-area">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-12 col-lg-5">
+                    <!-- Section Heading -->
+                    <div class="section-heading">
+                        <h2>GET IN TOUCH</h2>
+                        <p>Send us a message, we will email back later</p>
+                    </div>
+
+
+
+                    <!-- Contact Form Area -->
+                    <div class="contact-form-area mb-100">
+                        {{ form_start(form) }}
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        {{ form_widget(form.senderName, { 'attr': {'class': 'form-control', 'placeholder': 'Your Name'} }) }}
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        {{ form_widget(form.senderEmail, { 'attr': {'class': 'form-control', 'placeholder': 'Your Email'} }) }}
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        {{ form_widget(form.subject, { 'attr': {'class': 'form-control', 'placeholder': 'Subject'} }) }}
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        {{ form_widget(form.message, { 'attr': {'class': 'form-control', 'placeholder': 'Message', 'cols': '30', 'rows': '10'} }) }}
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    {{ form_widget(form.submit, { 'attr': {'class': 'btn alazea-btn mt-15'} }) }}
+                                </div>
+                            </div>
+                        {{ form_end(form)  }}
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <!-- Google Maps -->
+                    <div class="map-area mb-100">
+                        <iframe src="https://maps.google.com/maps?q=Z.I.%20Chotrana%20II%20B.P.%20160%20P%C3%B4le%20Technologique%20El%20Ghazela%20-%20Ariana%202083&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Contact Area End ##### -->
+{% endblock %}
